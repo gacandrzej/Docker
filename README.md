@@ -38,8 +38,8 @@ git clone git@github.com:gacandrzej/Docker.git
 ./skrypt_docker_ubuntu.sh
 
 # Przebudowa projektu
-1) docker-compose down -v  # usuń wolumen z danymi
-2) docker-compose up --build -d
+1) sudo docker compose down -v  # usuń wolumen z danymi
+2) sudo docker compose up --build -d
 3) lub instalacja pluginu Docker
 
 4) lub docker exec -it java_app bash
