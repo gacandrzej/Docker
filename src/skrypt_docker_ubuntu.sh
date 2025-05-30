@@ -64,7 +64,7 @@ echo "✅ Projekt rozpakowany."
 sleep 1
 
 echo "==> Uruchamianie kontenerów Docker Compose..."
-docker compose up --build -d
+sudo docker compose up --build -d
 echo "✅ Kontenery uruchomione w tle."
 
 echo
