@@ -24,12 +24,15 @@ Nazwa bazy: sklep
 
 Użytkownik: sprzedawca
 
-Hasło: S1sqbIdPH2i*qX_]
+Hasło: ...
 
 Pliki
 init.sql: skrypt inicjalizujący tabelę i przykładowe dane.
 
 TestJDBC.java: prosty program łączący się z MySQL i wypisujący dane z tabeli.
 
-## Można uruchomić skrypt:
+## Kroki na ćwiczenia:
+### 1) sklonuj repo:
+git clone git@github.com:gacandrzej/Docker.git
+### 2) Uruchom skrypt (skrypt w tym samym folderze co zip):
 ./skrypt_docker_ubuntu.sh
