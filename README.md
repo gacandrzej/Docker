@@ -2,6 +2,15 @@
 
 Ten projekt demonstruje jak uruchomić prostą aplikację Java korzystającą z bazy danych MySQL za pomocą `docker-compose`.
 
+## Co robi aplikacja?
+
+Łączy się z bazą MySQL (tabela `TOWARY`) i wypisuje dane na konsolę.
+
+## Struktura
+
+- `mysql` – kontener z bazą `sklep`
+- `java` – kontener kompilujący i uruchamiający `TestJDBC.java`
+
 ## Struktura projektu:
 ![img.png](img.png)
 
@@ -37,7 +46,7 @@ git clone git@github.com:gacandrzej/Docker.git
 ### 2) Uruchom skrypt (skrypt w tym samym folderze co zip):
 ./skrypt_docker_ubuntu.sh
 
-# Przebudowa projektu
+## A. Przebudowa projektu
 1) sudo docker compose down -v  # usuń wolumen z danymi
 2) sudo docker compose up --build -d
 3) lub instalacja pluginu Docker
@@ -49,21 +58,23 @@ git clone git@github.com:gacandrzej/Docker.git
 
 Lub poleceniem:
 
-wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.jar -P lib/
-B. Zmień Dockerfile, aby skopiować plik JAR:
-dockerfile
+wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/9.3.0/mysql-connector-java-9.3.0.jar -P lib/
+
+## B. Zmień Dockerfile, aby skopiować plik JAR:
+dockerfile:
 
 FROM openjdk:17-slim
 
 WORKDIR /usr/src/myapp
 
-# Skopiuj źródła i sterownik
+### Skopiuj źródła i sterownik
 COPY ./src /usr/src/myapp
-COPY ./lib/mysql-connector-java-8.0.33.jar /usr/src/myapp/lib/
 
-# Kompiluj z dołączonym sterownikiem
-RUN javac -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar pad/sql/simple/TestJDBC.java
+COPY ./lib/mysql-connector-java-9.3.0.jar /usr/src/myapp/lib/
+
+### Kompiluj z dołączonym sterownikiem
+RUN javac -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar TestJDBC.java
 
 C. Zmień docker-compose.yml, aby uruchomić z klaspath:
 
-command: bash -c "java -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar pad.sql.simple.TestJDBC"
+command: bash -c "java -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar TestJDBC"
