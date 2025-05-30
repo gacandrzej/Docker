@@ -62,8 +62,8 @@ COPY ./src /usr/src/myapp
 COPY ./lib/mysql-connector-java-8.0.33.jar /usr/src/myapp/lib/
 
 # Kompiluj z dołączonym sterownikiem
-RUN javac -cp .:/usr/src/myapp/lib/mysql-connector-java-8.0.33.jar pad/sql/simple/TestJDBC.java
+RUN javac -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar pad/sql/simple/TestJDBC.java
 
 C. Zmień docker-compose.yml, aby uruchomić z klaspath:
 
-command: bash -c "java -cp .:/usr/src/myapp/lib/mysql-connector-java-8.0.33.jar pad.sql.simple.TestJDBC"
+command: bash -c "java -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar pad.sql.simple.TestJDBC"
