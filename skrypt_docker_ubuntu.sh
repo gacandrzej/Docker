@@ -57,12 +57,6 @@ sudo snap install intellij-idea-community --classic
 echo "IntelliJ IDEA Community Edition zainstalowany."
 sleep 1
 
-echo "==> Rozpakowywanie projektu my-docker-java-mysql.zip..."
-unzip -o my-docker-java-mysql.zip -d ~/projekty/
-cd ~/projekty/my-docker-java-mysql || exit
-echo "Projekt rozpakowany."
-sleep 1
-
 echo "==> Uruchamianie kontenerów Docker Compose..."
 sudo docker compose up --build -d
 echo "Kontenery uruchomione w tle."
