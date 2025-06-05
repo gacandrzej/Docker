@@ -17,7 +17,7 @@ Ten projekt demonstruje jak uruchomić prostą aplikację Java korzystającą z 
    sudo apt update &&
    sudo apt install git
     ```
-2. sklonuj repo:
+2. Sklonuj repo:
    ```bash
    git clone git@github.com:gacandrzej/Docker.git
    ```

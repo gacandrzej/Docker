@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_sklep
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sklep
+      MYSQL_USER: sprzedawca
+      MYSQL_PASSWORD: S1sqbIdPH2i*qX_]
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_sklep
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+
+  java:
+    build: ./
+    container_name: java_app
+    depends_on:
+      - mysql
+    volumes:
+      - ./src:/usr/src/myapp
+      - ./libs:/usr/src/libs
+    working_dir: /usr/src/myapp
+    command: bash -c "find /usr/src/myapp -name '*.java' | entr -c sh -c 'javac -cp \"/usr/src/libs/mysql-connector-j-9.2.0.jar\" TestJDBC.java && java -cp \".:/usr/src/libs/mysql-connector-j-9.2.0.jar\" TestJDBC'"
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/sklep
+      - USER=sprzedawca
+      - PASS=S1sqbIdPH2i*qX_]
+
+volumes:
+  dbdata:

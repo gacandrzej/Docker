@@ -8,7 +8,7 @@ echo "Lista pakietów zaktualizowana."
 sleep 1
 
 echo "==> Instalacja wymaganych pakietów..."
-sudo apt install -y ca-certificates curl gnupg unzip
+sudo apt install -y ca-certificates curl gnupg unzip wget entr
 echo "Zależności zainstalowane."
 sleep 1
 
