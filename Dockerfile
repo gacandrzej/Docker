@@ -5,7 +5,7 @@ WORKDIR /usr/src/myapp
 RUN apt-get update && apt-get install -y wget unzip \
   && mkdir -p /usr/src/libs \
   && cd /usr/src/libs \
-  && wget -q https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-j-9.2.0.zip \
+  && wget --no-check-certificate https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-j-9.2.0.zip \
   && unzip -q mysql-connector-j-9.2.0.zip \
   && cp mysql-connector-j-9.2.0/mysql-connector-j-9.2.0.jar ./ \
   && rm -rf mysql-connector-j-9.2.0.zip mysql-connector-j-9.2.0
