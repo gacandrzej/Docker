@@ -1,13 +1,14 @@
-name: Test Docker + Java + MySQL
+name: Java MySQL CI
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+   push:
+     branches:
+       - master
+   workflow_dispatch:
 
 jobs:
-  test:
+  build:
+
     runs-on: ubuntu-latest
 
     services:
@@ -21,40 +22,52 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost"
+          --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=5
+          --health-retries=3
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Install MySQL client
+        run: sudo apt-get update && sudo apt-get install -y mysql-client
 
-    - name: Build images with docker-compose
-      run: docker compose build
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -P 3306 --silent; then
+              echo "MySQL is up!"
+              break
+            fi
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
 
-    - name: Run containers
-      run: docker compose up -d
+      - name: Initialize database
+        run: |
+          mysql -h 127.0.0.1 -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASS }} sklep < sklep.sql
 
-    - name: Wait for MySQL to be ready
-      run: |
-        echo "Czekam na MySQL..."
-        for i in {1..30}; do
-          if docker exec java_app bash -c 'mysql -hmysql -usprzedawca -p"S1sqbIdPH2i*qX_]" -e "SELECT 1"' >/dev/null 2>&1; then
-            echo "MySQL gotowy."
-            break
-          fi
-          sleep 2
-        done
+      - name: Download JUnit and Hamcrest
+        run: |
+          mkdir libs
+          wget -O libs/junit.jar https://search.maven.org/remotecontent?filepath=junit/junit/4.13.2/junit-4.13.2.jar
+          wget -O libs/hamcrest.jar https://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
 
-    - name: Sprawdzenie logów java_app
-      run: |
-        docker compose logs java_app
-        docker compose logs java_app | grep "Połączenie udane"
+      - name: Compile Java sources & tests
+        run: javac -cp "libs/junit.jar:libs/hamcrest.jar:drivers/*" TestJDBC.java TestMyApp.java
 
-    - name: Zatrzymaj kontenery
-      if: always()
-      run: docker compose down
+      - name: Run tests
+        run: java -cp "libs/junit.jar:libs/hamcrest.jar:drivers/*:." org.junit.runner.JUnitCore TestMyApp
+
+      - name: Run Java app
+        run: java -cp "drivers/*:." TestJDBC
+        env:
+          DB_URL: jdbc:mysql://127.0.0.1:3306/sklep
+          USER: ${{ secrets.DB_USER }}
+          PASS: ${{ secrets.DB_PASS }}

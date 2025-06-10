@@ -52,13 +52,13 @@ Java + MySQL + Docker + phpMyAdmin – pełne środowisko uruchomieniowe z Intel
 ```bash
    sudo intellij-idea-community &
 ```
-7. Otwórz plik TestJDBC.java
+9. Otwórz plik TestJDBC.java
 
 
-8. Dodaj plugin Docker
+10. Dodaj plugin Docker
 
 
-9. Przebudowa projektu w przypadku problemów:
+11. Przebudowa projektu w przypadku problemów:
    - Zmień Dockerfile: dodaj ściągnięcie narzędzia entr
    - przejdź do katalogu libs:
       ```bash
@@ -86,13 +86,13 @@ Java + MySQL + Docker + phpMyAdmin – pełne środowisko uruchomieniowe z Intel
      ```
    - sprawdzenie w części service w intelij konteneru java_app
    
-10. Test działania:
+12. Test działania:
    ```bash
    sudo ./test_projektu.sh
    ```
-11. Śledzenie logów w czasie rzeczywistym:
+13. Śledzenie logów w czasie rzeczywistym:
    ```bash
    sudo  docker compose logs -f
    ```
-12. KONIEC
+14. KONIEC
    
