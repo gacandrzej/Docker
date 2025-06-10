@@ -63,7 +63,7 @@ echo "Kontenery uruchomione w tle."
 
 echo
 echo "Wszystko gotowe!"
-echo "Projekt: ~/projekty/my-docker-java-mysql"
+echo "Projekt: ~/Docker"
 echo "Możesz wejść do katalogu i wpisać: docker compose logs -f"
 echo "IntelliJ uruchom: intellij-idea-community &"
 echo "Jeśli nie chcesz się wylogowywać, wpisz teraz: newgrp docker"

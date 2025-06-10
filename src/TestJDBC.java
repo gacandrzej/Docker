@@ -6,7 +6,7 @@ public class TestJDBC {
         final String USER = "sprzedawca";
         final String PASS = "S1sqbIdPH2i*qX_]";
 
-        String sql = "SELECT * FROM TOWARY";
+        String sql = "SELECT * FROM towary";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();

@@ -1,14 +1,21 @@
 # Docker + Java + MySQL: Przykład aplikacji
 
 Ten projekt demonstruje jak uruchomić prostą aplikację Java korzystającą z bazy danych MySQL za pomocą `docker-compose`.
+Java + MySQL + Docker + phpMyAdmin – pełne środowisko uruchomieniowe z IntelliJ IDEA.
 
 ## Struktura projektu:
-![img.png](img.png)
+![img_1.png](img_1.png)
+
+## Wymagania
+
+- Ubuntu Desktop
+- `git`, `docker`, `docker-compose`, `snap`
 
 ## Funkcjonalność
 
 - Kontener MySQL 8.0 z bazą danych `sklep`, użytkownikiem `sprzedawca` i przykładową tabelą `TOWARY`.
 - Kontener Java budujący i uruchamiający klasę `TestJDBC`, która łączy się z MySQL i wypisuje dane z tabeli.
+- Kontener phpMyAdmin dostęp przez przeglądarkę
 
 ## Kroki na ćwiczenia:
 
@@ -19,45 +26,73 @@ Ten projekt demonstruje jak uruchomić prostą aplikację Java korzystającą z 
     ```
 2. Sklonuj repo:
    ```bash
-   git clone git@github.com:gacandrzej/Docker.git
+   git clone https://github.com/gacandrzej/Docker.git
    ```
 
-3. Uruchom skrypt (skrypt w tym samym folderze co zip):
+3. Zmień uprawnienia dla skryptu:
+```bash
+   chmod +x skrypt_docker_ubuntu.sh
+```
+4. Uruchom skrypt:
    ```bash
    sudo ./skrypt_docker_ubuntu.sh
    ```
 
-
-# Przebudowa projektu
-1) sudo docker compose down -v  # usuń wolumen z danymi
-2) sudo docker compose up --build -d
-3) lub instalacja pluginu Docker
-4) lub docker exec -it java_app bash
-5) Pobierz sterownik lokalnie:
-   Z oficjalnej strony:
-   https://dev.mysql.com/downloads/connector/j/
-
-Lub poleceniem:
-
-wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.jar -P lib/
-B. Zmień Dockerfile, aby skopiować plik JAR:
-dockerfile
-
-FROM openjdk:17-slim
-
-WORKDIR /usr/src/myapp
-
-# Skopiuj źródła i sterownik
-COPY ./src /usr/src/myapp
-COPY ./lib/mysql-connector-java-8.0.33.jar /usr/src/myapp/lib/
-
-# Kompiluj z dołączonym sterownikiem
+6. Test działania:
    ```bash
-   javac -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar pad/sql/simple/TestJDBC.java
+   sudo ./test_projektu.sh
    ```
+7. Sprawdź phpMyAdmin:
 
-C. Zmień docker-compose.yml, aby uruchomić z klaspath:
 
+   Dostępny pod adresem: http://localhost:8080
+
+
+8. Uruchom intellij:
+```bash
+   sudo intellij-idea-community &
+```
+7. Otwórz plik TestJDBC.java
+
+
+8. Dodaj plugin Docker
+
+
+9. Przebudowa projektu w przypadku problemów:
+   - Zmień Dockerfile: dodaj ściągnięcie narzędzia entr
+   - przejdź do katalogu libs:
+      ```bash
+         cd ~/Docker/libs
+      ```
+   - Pobierz sterownik lokalnie wydając polecenie:
+       ```bash
+         sudo wget https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-j-9.2.0.zip 
+      ```
+   - rozpakuj plik mysql-connector-j-9.2.0.zip:
+      ```bash
+         sudo unzip mysql-connector-j-9.2.0.zip
+      ```
+   - skopiuj mysql-connector-j-9.2.0.jar:
+      ```bash
+         sudo cp mysql-connector-j-9.2.0/mysql-connector-j-9.2.0.jar .
+      ```
+   - usunięcie kontenerów z danymi:
    ```bash
-   bash -c "java -cp .:/usr/src/myapp/lib/mysql-connector-java-9.3.0.jar pad.sql.simple.TestJDBC"
+        sudo docker compose down -v
+     ``` 
+   - budowanie i uruchamianie:
+   ```bash
+        sudo docker compose up --build -d
+     ```
+   - sprawdzenie w części service w intelij konteneru java_app
+   
+10. Test działania:
+   ```bash
+   sudo ./test_projektu.sh
    ```
+11. Śledzenie logów w czasie rzeczywistym:
+   ```bash
+   sudo  docker compose logs -f
+   ```
+12. KONIEC
+   
