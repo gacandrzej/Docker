@@ -94,5 +94,5 @@ Java + MySQL + Docker + phpMyAdmin – pełne środowisko uruchomieniowe z Intel
    ```bash
    sudo  docker compose logs -f
    ```
-13. KONIEC
+13. KONIEC !!!
    
