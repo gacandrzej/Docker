@@ -5,7 +5,7 @@ import java.util.List;
 public class TestJDBC {
 
     public List<String> getTowary() throws SQLException {
-        final String DB_URL = "jdbc:mysql://localhost:3306/sklep";
+        final String DB_URL = "jdbc:mysql://localhost:3306/sklep?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         final String USER = "sprzedawca";
         final String PASS = "S1sqbIdPH2i*qX_]";
 
