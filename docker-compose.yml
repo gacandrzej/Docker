@@ -40,6 +40,7 @@ services:
     working_dir: /usr/src/myapp
     command: bash -c "find /usr/src/myapp -name '*.java' | entr -c sh -c 'javac -cp \"/usr/src/libs/mysql-connector-j-9.2.0.jar\" TestJDBC.java && java -cp \".:/usr/src/libs/mysql-connector-j-9.2.0.jar\" TestJDBC'"
     environment:
+      - TERM=xterm-256color
       - DB_URL=jdbc:mysql://mysql:3306/sklep
       - USER=sprzedawca
       - PASS=S1sqbIdPH2i*qX_]
